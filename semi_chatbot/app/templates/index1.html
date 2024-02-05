@@ -1,0 +1,161 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>매매가 예측 챗봇</title>
+    <style>
+        
+
+        body {
+            margin: 0;
+            height: 100%;
+            background-image: linear-gradient(to top, #d9afd9 0%, #97d9e1 100%);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            text-align: center;
+        }
+      
+        input {
+            width: 500px;
+            height: 32px;
+            font-size: 15px;
+            border: 0;
+            border-radius: 15px;
+            outline: none;
+            padding-left: 10px;
+            background-color: rgb(233, 233, 233);
+          }
+        #box{
+            margin: 100px;
+        }
+        .button_container {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 70%;
+          }
+
+        .btn {
+            border: none;
+            display: block;
+            text-align: center;
+            cursor: pointer;
+            text-transform: uppercase;
+            outline: none;
+            overflow: hidden;
+            position: relative;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            background-color: #222;
+            padding: 17px 60px;
+            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.20);
+          }
+          
+          .btn span {
+            position: relative; 
+            z-index: 1;
+          }
+          
+          .btn:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 490%;
+            width: 140%;
+            background: #78c7d2;
+            -webkit-transition: all .5s ease-in-out;
+            transition: all .5s ease-in-out;
+            -webkit-transform: translateX(-98%) translateY(-25%) rotate(45deg);
+            transform: translateX(-98%) translateY(-25%) rotate(45deg);
+          }
+          
+          .btn:hover:after {
+            -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
+            transform: translateX(-9%) translateY(-25%) rotate(45deg);
+          }
+    </style>
+</head>
+<body>
+<div id = "box">
+    <h1 class="description">건물 적정 매매가 예측</h1>
+    <br>
+<form action="/predict" method="post">
+    <!-- <label for="input-1">자치구명:</label> -->
+    <!-- <select id="input=1" name = "자치구명">
+        <option value ="0">강남구</option>
+        <option value ="1">강동구</option>
+        <option value ="2">강북구</option>
+        <option value ="3">강서구</option>
+        <option value ="4">관악구</option>
+        <option value ="5">광진구</option>
+        <option value ="6">구로구</option>
+        <option value ="7">금천구</option>
+        <option value ="8">노원구</option>
+        <option value ="9">도봉구</option>
+        <option value ="10">동대문구</option>
+        <option value ="11">동작구</option>
+        <option value ="12">마포구</option>
+        <option value ="13">서대문구</option>
+        <option value ="14">서초구</option>
+        <option value ="15">성동구</option>
+        <option value ="16">성북구</option>
+        <option value ="17">송파구</option>
+        <option value ="18">양천구</option>
+        <option value ="19">영등포구</option>
+        <option value ="20">용산구</option>
+        <option value ="21">은평구</option>
+        <option value ="22">종로구</option>
+        <option value ="23">중구</option>
+        <option value ="24">중랑구</option>
+    </select><br> -->
+    <input type="text" class="input-1" name="자치구명" placeholder="자치구명"><br><br>
+    
+    <input type="text" class="input-1" name="법정동명" placeholder="법정동명"><br><br>
+    
+    <input type="text" class="input-1" name="건물면적" placeholder="건물면적"><br><br>
+    
+    <input type="text" class="input-1" name="토지면적" placeholder="토지면적"><br><br>
+    
+    <input type="text" class="input-1" name="층" placeholder="층"><br><br>
+    
+    <input type="text" class="input-1" name="건축년도" placeholder="건축년도(연식)"><br><br>
+    
+    <input type="text" class="input-1" name="건물용도" placeholder="건물용도"><br><br>
+    <br>
+    <div class="button_container">
+    <button class = "btn" id= "predict-button"type="submit">예측하기</button>
+    </div>
+</form>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $("#predict-button").click(function() {
+            // 폼 데이터를 직렬화
+            var formData = $("#prediction-form").serialize();
+            
+            // Ajax 요청
+            $.ajax({
+                type: "POST",
+                url: "/predict",
+                data: formData,
+                success: function(response) {
+                    // 서버 응답을 화면에 출력
+                    $("#prediction-result").html("예측 결과: " + response.prediction);
+                },
+                error: function(error) {
+                    console.log("Error:", error);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html> 
